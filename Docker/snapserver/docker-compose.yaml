@@ -1,0 +1,12 @@
+version: "3"
+services:
+  snapserver:
+    image: barrettlowe/snapserver:0.24.0
+    #build:
+      #context: ./
+      #dockerfile: snapcast.Dockerfile
+    volumes:
+      # add the folder that mopidy via HA uses as an output pipe
+      - "{PATH_TO_STREAMS}:/tmp/streams"
+      - "${PWD}/snapcast-server.conf:/etc/snapserver.conf"
+    restart: unless-stopped
