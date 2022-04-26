@@ -12,7 +12,7 @@ RUN apt update && \
         wget https://github.com/badaix/snapcast/releases/download/v${snapcast_version}/snapserver_${snapcast_version}-1_amd64.deb && \
         apt -f install -y ./snapserver_${snapcast_version}-1_amd64.deb
 RUN apt install -y build-essential libasound2-dev cargo
-RUN rust update
+RUN rustup update
 RUN cargo install librespot && \
         apt remove --purge -y wget ca-certificates libsdl2-dev cargo && \
         apt autoremove -y && \
