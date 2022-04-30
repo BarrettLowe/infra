@@ -17,8 +17,8 @@ ENV PATH="/root/.cargo/bin:$PATH"
 
 RUN apt install unzip
 RUN  cd /root \
- && curl -LO https://github.com/plietar/librespot/archive/master.zip \
- && unzip master.zip \
+ && curl -LO https://github.com/librespot-org/librespot/archive/refs/tags/v0.3.1.zip \
+ && unzip v0.3.1.zip \
  && cd librespot-master \
  && cargo build --jobs $(grep -c ^processor /proc/cpuinfo) --release --no-default-features \
  && mv target/release/librespot /usr/local/bin
