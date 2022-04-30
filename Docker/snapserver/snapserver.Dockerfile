@@ -15,6 +15,7 @@ RUN apt install -y build-essential libasound2-dev cargo
 
 ENV PATH="/root/.cargo/bin:$PATH"
 
+RUN apt install unzip
 RUN  cd /root \
  && curl -LO https://github.com/plietar/librespot/archive/master.zip \
  && unzip master.zip \
