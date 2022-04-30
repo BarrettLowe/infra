@@ -19,6 +19,7 @@ RUN apt update && \
         cd librespot-0.3.1 && \
         cargo build --release --no-default-features && \
         cp target/release/librespot /usr/bin/. && \
+        cd .. && \
         apt remove --purge -y wget unzip ca-certificates libsdl2-dev cargo && \
         apt autoremove -y && \
         apt install -y libasound2 && rm snapserver_${snapcast_version}-1_amd64.deb
