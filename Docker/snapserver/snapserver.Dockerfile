@@ -13,7 +13,7 @@ RUN apt update && \
         apt install -y libsdl2-dev && \
         wget https://github.com/badaix/snapcast/releases/download/v${snapcast_version}/snapserver_${snapcast_version}-1_amd64.deb && \
         apt -f install -y ./snapserver_${snapcast_version}-1_amd64.deb
-RUN apt install -y build-essential libasound3-dev cargo
+RUN apt install -y build-essential libasound2-dev cargo
 
 RUN rustc --version
 
