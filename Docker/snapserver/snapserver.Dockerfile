@@ -15,7 +15,6 @@ RUN apt install -y build-essential libasound2-dev cargo
 
 ENV PATH="/root/.cargo/bin:$PATH"
 
-RUN rustup update
 RUN cargo install librespot && \
         apt remove --purge -y wget ca-certificates libsdl2-dev cargo && \
         apt autoremove -y && \
