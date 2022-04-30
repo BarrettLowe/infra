@@ -1,5 +1,4 @@
-# FROM debian:buster-slim
-FROM alpine:edge
+FROM debian:buster-slim
 
 WORKDIR /data
 
