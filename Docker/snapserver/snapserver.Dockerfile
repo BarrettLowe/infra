@@ -15,10 +15,17 @@ RUN apt install -y build-essential libasound2-dev cargo
 
 ENV PATH="/root/.cargo/bin:$PATH"
 
-RUN cargo install librespot && \
-        apt remove --purge -y wget ca-certificates libsdl2-dev cargo && \
-        apt autoremove -y && \
-        apt install -y libasound2 && rm snapserver_${snapcast_version}-1_amd64.deb
+RUN  cd /root \
+ && curl -LO https://github.com/plietar/librespot/archive/master.zip \
+ && unzip master.zip \
+ && cd librespot-master \
+ && cargo build --jobs $(grep -c ^processor /proc/cpuinfo) --release --no-default-features \
+ && mv target/release/librespot /usr/local/bin
+
+# RUN cargo install librespot && \
+#         apt remove --purge -y wget ca-certificates libsdl2-dev cargo && \
+#         apt autoremove -y && \
+#         apt install -y libasound2 && rm snapserver_${snapcast_version}-1_amd64.deb
 
 
 CMD snapserver --config /etc/snapserver.conf
