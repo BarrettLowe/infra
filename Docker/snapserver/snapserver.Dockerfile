@@ -7,7 +7,7 @@ ARG snapcast_version=0.25.0
 
 RUN apt update && \
         apt upgrade -y && \
-        apt install wget ca-certificates -y --no-install-recommends && \
+        apt install wget ca-certificates curl -y --no-install-recommends && \
         apt install -y libsdl2-dev && \
         wget https://github.com/badaix/snapcast/releases/download/v${snapcast_version}/snapserver_${snapcast_version}-1_amd64.deb && \
         apt -f install -y ./snapserver_${snapcast_version}-1_amd64.deb
