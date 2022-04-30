@@ -1,4 +1,4 @@
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 
 WORKDIR /data
 
@@ -13,20 +13,18 @@ RUN apt update && \
         apt install -y libsdl2-dev && \
         wget https://github.com/badaix/snapcast/releases/download/v${snapcast_version}/snapserver_${snapcast_version}-1_amd64.deb && \
         apt -f install -y ./snapserver_${snapcast_version}-1_amd64.deb
-RUN apt install -y build-essential libasound2-dev cargo
+RUN apt install -y build-essential libasound2-dev cargo unzip
 
-RUN rustc --version
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- -y
-RUN echo 'source $HOME/.cargo/env' >> $HOME/.bashrc
 
-ENV PATH="/root/.cargo/bin:$PATH"
-RUN rustup update && rustc --version
+RUN wget https://github.com/librespot-org/librespot/archive/refs/tags/v0.3.1.zip && \
+        unzip v0.3.1.zip && \
+        cd librespot-0.3.1 && \
+        cargo build --release --no-default-features && \
+        cp target/release/librespot /usr/bin/.
 
-RUN cargo install librespot && \
-        apt remove --purge -y wget ca-certificates libsdl2-dev cargo && \
+RUN apt remove --purge -y wget unzip ca-certificates libsdl2-dev cargo && \
         apt autoremove -y && \
         apt install -y libasound2 && rm snapserver_${snapcast_version}-1_amd64.deb
-
 
 CMD snapserver --config /etc/snapserver.conf
 
