@@ -16,7 +16,8 @@ RUN apt update && \
 RUN apt install -y build-essential libasound2-dev cargo
 
 RUN rustc --version
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -y
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- -y
+RUN echo 'source $HOME/.cargo/env' >> $HOME/.bashrc
 
 ENV PATH="/root/.cargo/bin:$PATH"
 RUN rustup update && rustc --version
