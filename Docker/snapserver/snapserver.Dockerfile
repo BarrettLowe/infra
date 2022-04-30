@@ -19,7 +19,7 @@ RUN apt install unzip
 RUN  cd /root \
  && curl -LO https://github.com/librespot-org/librespot/archive/refs/tags/v0.3.1.zip \
  && unzip v0.3.1.zip \
- && cd librespot-master \
+ && cd librespot-0.3.1 \
  && cargo build --jobs $(grep -c ^processor /proc/cpuinfo) --release --no-default-features \
  && mv target/release/librespot /usr/local/bin
 
