@@ -1,0 +1,43 @@
+pipeline {
+    agent {label 'docker'}
+    parameters{
+        choice(name: 'Type', choices: ['DEV','RELEASE'], description: "Are you testing the dev branch?")
+        
+        string(name: 'snapcast_version', defaultValue: '0.25.0', description: 'The snapcast version')
+    }
+    stages {
+        stage('Preparation') { // for display purposes
+            steps {
+                script {
+                    if (params.Type == 'DEV')
+                    {
+                        THE_BRANCH = 'dev'
+                        THE_TAG = 'dev'
+                    }
+                    else
+                    {
+                        THE_BRANCH = 'master'
+                        THE_TAG = params.snapcast_version
+                    }
+                }
+                // Get some code from a GitHub repository
+                git url: 'https://github.com/barrettlowe/infra.git',
+                    branch: THE_BRANCH
+            }
+        }
+        stage('Build image') {
+            steps {
+                dir("Docker/snapserver") {
+                    script {
+                        snap = docker.build "barrettlowe/snapserver", "-f snapserver.Dockerfile --build-arg snapcast_version=${params.snapcast_version} ."
+                        
+                        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
+                            snap.push(THE_TAG)
+                            snap.push('latest')
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
